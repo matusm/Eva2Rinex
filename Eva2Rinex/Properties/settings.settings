@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Eva2Rinex.Properties" GeneratedClassName="settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="InputDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">L:\E2\E23\RINEX\meteo_eva</Value>
+    </Setting>
+    <Setting Name="OutputDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">L:\E2\E23\RINEX\meteo_eva\BIPM</Value>
+    </Setting>
+    <Setting Name="RinexType" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CCTF</Value>
+    </Setting>
+    <Setting Name="MeanInternalTemperature" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">22.5</Value>
+    </Setting>
+    <Setting Name="MeanInternalHumidity" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="VaisalaInputDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">L:\E2\E23\RINEX\meteo_vaisala</Value>
+    </Setting>
+    <Setting Name="Verbatim" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
