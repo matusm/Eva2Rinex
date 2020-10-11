@@ -1,4 +1,5 @@
 ﻿using Eva2Rinex.Properties;
+using Eva2Rinex.BevMeteo;
 using System;
 using System.Globalization;
 using System.IO;
@@ -22,6 +23,7 @@ namespace Eva2Rinex
                 ConsoleUI.BeSilent();
 
             // query settings on Rinex output file type
+            // actually RinexType.Cctf is the current standard
             RinexType rinexType = RinexType.Unknown;
             string rinexTypeFromSettings = settings.RinexType.ToUpper().Trim();
             if (rinexTypeFromSettings == "BIPM") rinexType = RinexType.Bipm;
@@ -49,9 +51,8 @@ namespace Eva2Rinex
             string rinexOutputPath = Path.Combine(settings.OutputDirectory, rinexOutputFileName);
             #endregion
 
-            // load input file to EvaDataLog
+            // load outdoor data file
             EvaDataLog evaDataLog = new EvaDataLog($"file: {evaInputPath}");
-
             ConsoleUI.ReadingFile(evaInputFileName);
             using (StreamReader hFile = File.OpenText(evaInputPath))
             {
@@ -64,13 +65,31 @@ namespace Eva2Rinex
             }
             ConsoleUI.Done();
 
+            // load indoor data file (if CCTF mode)
+            VaisalaDataLog vaisalaDataLog = new VaisalaDataLog($"file: {vaisalaInputPath}");
+            if (rinexType == RinexType.Cctf)
+            {
+                ConsoleUI.ReadingFile(vaisalaInputPath);
+                using (StreamReader hFile = File.OpenText(vaisalaInputPath))
+                {
+                    string line;
+                    while ((line = hFile.ReadLine()) != null)
+                    {
+                        vaisalaDataLog.NewEntry(line);
+                    }
+                    hFile.Close();
+                }
+                ConsoleUI.Done();
+            }
+            
             // extract relevant data in a new object
-            SensorDataLog sensorDataLog = new SensorDataLog(evaDataLog.Title);
+            SensorDataLog sensorDataLog = new SensorDataLog($"outdoor: {evaDataLog.Title}, indoor: {vaisalaDataLog.Title}");
             foreach (var edp in evaDataLog.GetData())
             {
-                if (rinexType==RinexType.Cctf)
+                if (rinexType == RinexType.Cctf)
                 {
-                    sensorDataLog.NewEntry(edp.TimeStamp, edp.Temperature1, edp.RelativeHumidity, edp.AbsolutePressure, settings.MeanInternalTemperature, settings.MeanInternalHumidity); // TODO 
+                    VaisalaDataPod vdp = vaisalaDataLog.GetPodForDate(edp.TimeStamp);
+                    sensorDataLog.NewEntry(edp.TimeStamp, edp.Temperature1, edp.RelativeHumidity, edp.AbsolutePressure, vdp.Temperature, vdp.RelativeHumidity);
                 }
                 else
                 {
@@ -83,8 +102,8 @@ namespace Eva2Rinex
             SensorMetaData sensorMetaData = new SensorMetaData(rinexType);
             sensorMetaData.ProgramName = ConsoleUI.Title + " V" + ConsoleUI.Version;
             sensorMetaData.AddComment("External sensor located close to GNSS antenna");
-            sensorMetaData.AddComment("Input file name: " + evaInputFileName);
-            sensorMetaData.AddComment("Internal sensor: average values of lab air parameters");
+            sensorMetaData.AddComment($"Input file name: {evaInputFileName}");
+            sensorMetaData.AddComment($"Internal (indoor) sensor data file: {vaisalaInputFileName}");
 
             // finaly write the output file
             ConsoleUI.WritingFile(rinexOutputFileName);

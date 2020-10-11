@@ -36,8 +36,6 @@ namespace Eva2Rinex
                 case RinexType.Cctf:
                     metSensors = new MeteoSensorDescription[5];
                     break;
-                default:
-                    break;
             }
             SetBevSpecificMetaData(this.version);
         }
@@ -62,7 +60,7 @@ namespace Eva2Rinex
             if (metSensors.Length < 3)
                 return string.Empty;
             StringBuilder sb = new StringBuilder();
-            AddPositionToComments(version);
+            AddSensorPositionToComments(version);
             sb.AppendLine(GenerateVersionHeaderInfo(version));
             sb.AppendLine(GenerateProgramVersionAndAgencyInfo(version));
 
@@ -118,7 +116,7 @@ namespace Eva2Rinex
         /// The BIPM and CCTF file format specification does not include sensor position. Since the height is important for barometric pressure measurements it is included as a comment.
         /// </summary>
         /// <param name="version">The Rinex version.</param>
-        void AddPositionToComments(RinexType version)
+        void AddSensorPositionToComments(RinexType version)
         {
             if (version == RinexType.Bipm || version == RinexType.Cctf)
                 AddComment(string.Format(CultureInfo.InvariantCulture.NumberFormat, "Height of PR sensor {0:F1} m", PositionH));
