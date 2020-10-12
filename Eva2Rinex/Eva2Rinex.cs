@@ -13,7 +13,7 @@ namespace Eva2Rinex
 
             // check command line parameters on provided filename 
             if (args.Length < 1)
-                ConsoleUI.ErrorExit("No filename given", 1);
+                ConsoleUI.ErrorExit("No filename given", 1); // this is never silent
 
             // check settings file
             Settings settings = new Settings();
