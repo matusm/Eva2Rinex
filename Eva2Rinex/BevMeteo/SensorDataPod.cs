@@ -156,7 +156,7 @@ namespace Eva2Rinex
         /// <returns>A string representing the current object.</returns>
         public override string ToString()
         {
-            return string.Format("[SensorDataPod: TimeStamp={0}, AirTemperature={1}, RelativeHumidity={2}, AirPressure={3}]", TimeStamp, AirPressure, RelativeHumidity, AirPressure);
+            return string.Format($"[SensorDataPod: TimeStamp={TimeStamp}, AirTemperature={AirTemperature}, RelativeHumidity={RelativeHumidity}, AirPressure={AirPressure}]");
         }
 
         #endregion

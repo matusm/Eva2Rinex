@@ -13,7 +13,7 @@ namespace Eva2Rinex
 
             // check command line parameters on provided filename 
             if (args.Length < 1)
-                ConsoleUI.ErrorExit("No filename given", 1); // this is never silent
+                ConsoleUI.ErrorExit("No filename given", 1);
 
             // check settings file
             Settings settings = new Settings();
@@ -52,34 +52,50 @@ namespace Eva2Rinex
             #endregion
 
             // load outdoor data file
+            // this data is mandatory, without this file we can exit
             EvaDataLog evaDataLog = new EvaDataLog($"file: {evaInputPath}");
             ConsoleUI.ReadingFile(evaInputFileName);
-            using (StreamReader hFile = File.OpenText(evaInputPath))
+            try
             {
-                string line;
-                while ((line = hFile.ReadLine()) != null)
-                {
-                    evaDataLog.NewEntry(line);
-                }
-                hFile.Close();
-            }
-            ConsoleUI.Done();
-
-            // load indoor data file (if CCTF mode)
-            VaisalaDataLog vaisalaDataLog = new VaisalaDataLog($"file: {vaisalaInputPath}");
-            if (rinexType == RinexType.Cctf)
-            {
-                ConsoleUI.ReadingFile(vaisalaInputPath);
-                using (StreamReader hFile = File.OpenText(vaisalaInputPath))
+                using (StreamReader hFile = File.OpenText(evaInputPath))
                 {
                     string line;
                     while ((line = hFile.ReadLine()) != null)
                     {
-                        vaisalaDataLog.NewEntry(line);
+                        evaDataLog.NewEntry(line);
                     }
                     hFile.Close();
                 }
-                ConsoleUI.Done();
+
+            }
+            catch (Exception ex)
+            {
+                ConsoleUI.ErrorExit($"Error reading input: {ex.Message}", 3);
+            }
+            ConsoleUI.Done();
+
+            // load indoor data file (if in CCTF mode)
+            VaisalaDataLog vaisalaDataLog = new VaisalaDataLog($"file: {vaisalaInputPath}");
+            if (rinexType == RinexType.Cctf)
+            {
+                try
+                {
+                    ConsoleUI.ReadingFile(vaisalaInputFileName);
+                    using (StreamReader hFile = File.OpenText(vaisalaInputPath))
+                    {
+                        string line;
+                        while ((line = hFile.ReadLine()) != null)
+                        {
+                            vaisalaDataLog.NewEntry(line);
+                        }
+                        hFile.Close();
+                    }
+                    ConsoleUI.Done();
+                }
+                catch (Exception)
+                {
+                    ConsoleUI.WriteLine($"There was a problem with {vaisalaInputFileName}"); 
+                }
             }
             
             // extract relevant data in a new object
@@ -103,7 +119,7 @@ namespace Eva2Rinex
             sensorMetaData.ProgramName = ConsoleUI.Title + " V" + ConsoleUI.Version;
             sensorMetaData.AddComment("External sensor located close to GNSS antenna");
             sensorMetaData.AddComment($"Input file name: {evaInputFileName}");
-            sensorMetaData.AddComment($"Internal (indoor) sensor data file: {vaisalaInputFileName}");
+            sensorMetaData.AddComment($"Internal sensor data file: {vaisalaInputFileName}");
 
             // finaly write the output file
             ConsoleUI.WritingFile(rinexOutputFileName);

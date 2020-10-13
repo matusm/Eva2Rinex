@@ -7,6 +7,7 @@ namespace Eva2Rinex
     {
         CultureInfo provider = CultureInfo.InvariantCulture;
         const int ExpectedColumns = 12; // after update in August 2020, was 11 before
+        const double nullData = 9999.9; // according to Meteo_format_CCTF-V1.0.pdf
 
         #region Ctor
         public EvaDataPod(string dataLine)
@@ -57,7 +58,7 @@ namespace Eva2Rinex
 
         private bool ParseNumericValue(string str, out double value)
         {
-            value = double.NaN;
+            value = nullData;
             try
             {
                 value = double.Parse(str, provider);

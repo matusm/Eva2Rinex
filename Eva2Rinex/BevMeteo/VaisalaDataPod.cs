@@ -9,6 +9,8 @@ namespace Eva2Rinex.BevMeteo
         CultureInfo provider = CultureInfo.InvariantCulture;
         const int ExpectedColumns = 4;
         const double dateMatchToleranceInSeconds = 120.0;
+        const double nullData = 9999.9; // according to Meteo_format_CCTF-V1.0.pdf
+
 
         #region Properties
         public bool IsValid { get; }
@@ -56,7 +58,7 @@ namespace Eva2Rinex.BevMeteo
 
         private bool ParseNumericValue(string str, out double value)
         {
-            value = double.NaN;
+            value = nullData;
             try
             {
                 value = double.Parse(str, provider);
