@@ -48,7 +48,7 @@
     <Compile Include="BevMeteo\RinexTools.cs" />
     <Compile Include="BevMeteo\SensorDataLog.cs" />
     <Compile Include="BevMeteo\SensorDataPod.cs" />
-    <Compile Include="BevMeteo\sensormetadata.cs" />
+    <Compile Include="BevMeteo\SensorMetaData.cs" />
     <Compile Include="Eva2Rinex.cs" />
     <Compile Include="MyLibs\ConsoleUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
