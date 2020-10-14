@@ -5,6 +5,12 @@ namespace Eva2Rinex
     public static class RinexTools
     {
         /// <summary>
+        /// this is the representation of missing data according to Meteo_format_CCTF-V1.0.pdf
+        /// a more logical choice would be double.NaN
+        /// </summary>
+        public static double NullData => 9999.9;
+
+        /// <summary>
         /// Formats a given string to a string of given length, padding it from the right with spaces.
         /// </summary>
         /// <remarks>According to RINEX format specifications, width is 20, 40 or 60.</remarks>

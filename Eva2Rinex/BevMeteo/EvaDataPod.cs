@@ -5,9 +5,8 @@ namespace Eva2Rinex
 {
     public class EvaDataPod : IComparable
     {
-        CultureInfo provider = CultureInfo.InvariantCulture;
-        const int ExpectedColumns = 12; // after update in August 2020, was 11 before
-        const double nullData = 9999.9; // according to Meteo_format_CCTF-V1.0.pdf
+        private CultureInfo provider = CultureInfo.InvariantCulture;
+        private const int ExpectedColumns = 12; // after EVA 700 update in August 2020, was 11 before
 
         #region Ctor
         public EvaDataPod(string dataLine)
@@ -58,7 +57,7 @@ namespace Eva2Rinex
 
         private bool ParseNumericValue(string str, out double value)
         {
-            value = nullData;
+            value = RinexTools.NullData;
             try
             {
                 value = double.Parse(str, provider);
@@ -106,16 +105,16 @@ namespace Eva2Rinex
         }
 
         #region Private fields
-        double temperature1 = nullData;        // the air temperature (analog) in °C
-        double temperature2 = nullData;        // the air temperature (digital) in °C
-        double absolutePressure = nullData;    // the barometric pressure in hPa
-        double relativeHumidity = nullData;    // the relative humidity in %
-        double absoluteHumidity = nullData;    // the absolute humidity in g/m³
-        double mixingRatio = nullData;         // in g/kg
-        double dewpoint = nullData;            // in °C
-        double frostpoint = nullData;          // in °C
-        double airFlow = nullData;             // in %
-        double fanPower = nullData;            // in %
+        double temperature1 = RinexTools.NullData;        // the air temperature (analog) in °C
+        double temperature2 = RinexTools.NullData;        // the air temperature (digital) in °C
+        double absolutePressure = RinexTools.NullData;    // the barometric pressure in hPa
+        double relativeHumidity = RinexTools.NullData;    // the relative humidity in %
+        double absoluteHumidity = RinexTools.NullData;    // the absolute humidity in g/m³
+        double mixingRatio = RinexTools.NullData;         // in g/kg
+        double dewpoint = RinexTools.NullData;            // in °C
+        double frostpoint = RinexTools.NullData;          // in °C
+        double airFlow = RinexTools.NullData;             // in %
+        double fanPower = RinexTools.NullData;            // in %
         #endregion
 
     }

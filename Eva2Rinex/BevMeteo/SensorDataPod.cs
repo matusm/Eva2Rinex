@@ -27,7 +27,7 @@ namespace Eva2Rinex
                 if (internalTemperature.HasValue)
                     return internalTemperature.Value;
                 else
-                    return 9999.9;
+                    return RinexTools.NullData;
             }
         }
         public double InternalHumidity
@@ -37,7 +37,7 @@ namespace Eva2Rinex
                 if (internalHumidity.HasValue)
                     return internalHumidity.Value;
                 else
-                    return 9999.9;
+                    return RinexTools.NullData;
             }
         }
         #endregion

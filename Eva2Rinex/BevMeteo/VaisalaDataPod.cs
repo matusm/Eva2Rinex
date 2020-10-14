@@ -5,11 +5,9 @@ namespace Eva2Rinex.BevMeteo
 {
     public class VaisalaDataPod
     {
-
-        CultureInfo provider = CultureInfo.InvariantCulture;
-        const int ExpectedColumns = 4;
-        const double dateMatchToleranceInSeconds = 120.0;
-        const double nullData = 9999.9; // according to Meteo_format_CCTF-V1.0.pdf
+        private CultureInfo provider = CultureInfo.InvariantCulture;
+        private const int ExpectedColumns = 4;
+        private const double dateMatchToleranceInSeconds = 120.0;
 
 
         #region Properties
@@ -38,8 +36,8 @@ namespace Eva2Rinex.BevMeteo
 
         #region Private Stuff
 
-        private double temperature = nullData;
-        private double relativeHumidity = nullData;
+        private double temperature = RinexTools.NullData;
+        private double relativeHumidity = RinexTools.NullData;
 
         private bool ParseDataLine(string line)
         {
@@ -58,7 +56,7 @@ namespace Eva2Rinex.BevMeteo
 
         private bool ParseNumericValue(string str, out double value)
         {
-            value = nullData;
+            value = RinexTools.NullData;
             try
             {
                 value = double.Parse(str, provider);
