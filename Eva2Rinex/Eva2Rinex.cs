@@ -35,7 +35,7 @@ namespace Eva2Rinex
             string baseFileName = Path.GetFileNameWithoutExtension(args[0]);
             string evaInputFileName = Path.ChangeExtension(baseFileName, ".TXT");
             string vaisalaInputFileName = Path.ChangeExtension($"Vaisala_Data_{baseFileName}", ".TXT");
-            string evaInputPath = Path.Combine(settings.InputDirectory, evaInputFileName);
+            string evaInputPath = Path.Combine(settings.EvaInputDirectory, evaInputFileName);
             string vaisalaInputPath = Path.Combine(settings.VaisalaInputDirectory, vaisalaInputFileName);
             DateTime dateToProcess = DateTime.UtcNow; // just to initialize the type
             // estimate the date (the day) from the base file name and construct the output file name 
@@ -94,7 +94,8 @@ namespace Eva2Rinex
                 }
                 catch (Exception)
                 {
-                    ConsoleUI.WriteLine($"There was a problem with {vaisalaInputFileName}"); 
+                    ConsoleUI.WriteLine($"There was a problem with {vaisalaInputFileName}");
+                    ConsoleUI.WriteLine("Will include code for missing values");
                 }
             }
             

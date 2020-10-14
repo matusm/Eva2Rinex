@@ -26,9 +26,9 @@ namespace Eva2Rinex.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("L:\\E2\\E23\\RINEX\\meteo_eva")]
-        public string InputDirectory {
+        public string EvaInputDirectory {
             get {
-                return ((string)(this["InputDirectory"]));
+                return ((string)(this["EvaInputDirectory"]));
             }
         }
         
@@ -38,33 +38,6 @@ namespace Eva2Rinex.Properties {
         public string OutputDirectory {
             get {
                 return ((string)(this["OutputDirectory"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CCTF")]
-        public string RinexType {
-            get {
-                return ((string)(this["RinexType"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("22.5")]
-        public double MeanInternalTemperature {
-            get {
-                return ((double)(this["MeanInternalTemperature"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public double MeanInternalHumidity {
-            get {
-                return ((double)(this["MeanInternalHumidity"]));
             }
         }
         
@@ -83,6 +56,15 @@ namespace Eva2Rinex.Properties {
         public bool Verbatim {
             get {
                 return ((bool)(this["Verbatim"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CCTF")]
+        public string RinexType {
+            get {
+                return ((string)(this["RinexType"]));
             }
         }
     }
