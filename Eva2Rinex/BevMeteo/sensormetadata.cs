@@ -25,16 +25,16 @@ namespace Eva2Rinex
         {
             ProgramName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             this.version = version;
-            switch (version)
+            switch (this.version)
             {
                 case RinexType.Unknown:
                 case RinexType.Version3:
                 case RinexType.Version2:
                 case RinexType.Bipm:
-                    metSensors = new MeteoSensorDescription[3];
+                    meteoSensorDescriptions = new MeteoSensorDescription[3];
                     break;
                 case RinexType.Cctf:
-                    metSensors = new MeteoSensorDescription[5];
+                    meteoSensorDescriptions = new MeteoSensorDescription[5];
                     break;
             }
             SetBevSpecificMetaData(this.version);
@@ -57,7 +57,7 @@ namespace Eva2Rinex
         /// <returns>A single string representing the file header.</returns>
         public string ToRinex()
         {
-            if (metSensors.Length < 3)
+            if (meteoSensorDescriptions.Length < 3)
                 return string.Empty;
             StringBuilder sb = new StringBuilder();
             AddSensorPositionToComments(version);
@@ -86,11 +86,11 @@ namespace Eva2Rinex
             // sensor info
             // sb.AppendLine("     3    TD    HR    PR                                    # / TYPES OF OBSERV");
 
-            string typeOfObs = string.Format("{0,6}", metSensors.Length);
-            foreach (var sensor in metSensors)
+            string typeOfObs = string.Format("{0,6}", meteoSensorDescriptions.Length);
+            foreach (var sensor in meteoSensorDescriptions)
                 typeOfObs += string.Format("  {0,4}", sensor.GetObservationType(version));
             sb.AppendLine(typeOfObs.PadRight(60, ' ') + "# / TYPES OF OBSERV");
-            foreach (var sensor in metSensors)
+            foreach (var sensor in meteoSensorDescriptions)
                 sb.AppendLine(sensor.ToRinex(version));
 
             // sensor position (not for BIPM / CCTF files)
@@ -131,17 +131,17 @@ namespace Eva2Rinex
             if (version == RinexType.Cctf)
             {
                 // the concept of external versus internal sensors was introduced in CCTF
-                metSensors[0] = new MeteoSensorDescription("TE", "KRONEIS EVA700", "SN:700.092-12590592", 0.1);
-                metSensors[1] = new MeteoSensorDescription("HE", "KRONEIS EVA700", "SN:700.092-12590592", 2.0);
-                metSensors[2] = new MeteoSensorDescription("PR", "KRONEIS EVA700", "SN:700.092-12590592", 0.3);
-                metSensors[3] = new MeteoSensorDescription("TI", "VAISALA HMT331", "SN:S2220318", 0.1);
-                metSensors[4] = new MeteoSensorDescription("HI", "VAISALA HMT331", "SN:S2220318", 1.5);
+                meteoSensorDescriptions[0] = new MeteoSensorDescription("TE", "KRONEIS EVA700", "SN:700.092-12590592", 0.1);
+                meteoSensorDescriptions[1] = new MeteoSensorDescription("HE", "KRONEIS EVA700", "SN:700.092-12590592", 2.0);
+                meteoSensorDescriptions[2] = new MeteoSensorDescription("PR", "KRONEIS EVA700", "SN:700.092-12590592", 0.3);
+                meteoSensorDescriptions[3] = new MeteoSensorDescription("TI", "VAISALA HMT331", "SN:S2220318", 0.1);
+                meteoSensorDescriptions[4] = new MeteoSensorDescription("HI", "VAISALA HMT331", "SN:S2220318", 1.5);
             }
             else
             {
-                metSensors[0] = new MeteoSensorDescription("TD", "KRONEIS EVA700", "SN:700.092-12590592", 0.1);
-                metSensors[1] = new MeteoSensorDescription("HR", "KRONEIS EVA700", "SN:700.092-12590592", 2.0);
-                metSensors[2] = new MeteoSensorDescription("PR", "KRONEIS EVA700", "SN:700.092-12590592", 0.3);
+                meteoSensorDescriptions[0] = new MeteoSensorDescription("TD", "KRONEIS EVA700", "SN:700.092-12590592", 0.1);
+                meteoSensorDescriptions[1] = new MeteoSensorDescription("HR", "KRONEIS EVA700", "SN:700.092-12590592", 2.0);
+                meteoSensorDescriptions[2] = new MeteoSensorDescription("PR", "KRONEIS EVA700", "SN:700.092-12590592", 0.3);
             }
             // GP/TM.281 (PPP-derived antenna coordinates for use in P3 data, 21.08.2018)
             PositionX = 4087027.3000;
@@ -225,7 +225,7 @@ namespace Eva2Rinex
         #region Private fields
         private readonly RinexType version;
         private string bipmStationCode;
-        private readonly MeteoSensorDescription[] metSensors;
+        private readonly MeteoSensorDescription[] meteoSensorDescriptions;
         #endregion
 
     }
