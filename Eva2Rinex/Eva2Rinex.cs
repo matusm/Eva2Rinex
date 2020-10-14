@@ -11,16 +11,16 @@ namespace Eva2Rinex
         static void Main(string[] args)
         {
 
-            // check command line parameters on provided filename 
+            // check command line parameters on provided filename/date
             if (args.Length < 1)
                 ConsoleUI.ErrorExit("No filename given", 1);
 
-            // check settings file
             Settings settings = new Settings();
             if (settings.Verbatim)
                 ConsoleUI.BeVerbatim();
             else
                 ConsoleUI.BeSilent();
+            ConsoleUI.Welcome();
 
             // query settings on Rinex output file type
             // actually RinexType.Cctf is the current standard
@@ -54,25 +54,22 @@ namespace Eva2Rinex
             // load outdoor data file
             // this data is mandatory, without this file we can exit
             EvaDataLog evaDataLog = new EvaDataLog($"file: {evaInputPath}");
-            ConsoleUI.ReadingFile(evaInputFileName);
             try
             {
-                using (StreamReader hFile = File.OpenText(evaInputPath))
+                StreamReader hFile = File.OpenText(evaInputPath);
+                ConsoleUI.ReadingFile(evaInputFileName);
+                string line;
+                while ((line = hFile.ReadLine()) != null)
                 {
-                    string line;
-                    while ((line = hFile.ReadLine()) != null)
-                    {
-                        evaDataLog.NewEntry(line);
-                    }
-                    hFile.Close();
+                    evaDataLog.NewEntry(line);
                 }
-
+                hFile.Close();
+                ConsoleUI.Done();
             }
             catch (Exception ex)
             {
                 ConsoleUI.ErrorExit($"Error reading input: {ex.Message}", 3);
             }
-            ConsoleUI.Done();
 
             // load indoor data file (if in CCTF mode)
             VaisalaDataLog vaisalaDataLog = new VaisalaDataLog($"file: {vaisalaInputPath}");
@@ -80,26 +77,26 @@ namespace Eva2Rinex
             {
                 try
                 {
+                    StreamReader hFile = File.OpenText(vaisalaInputPath);
                     ConsoleUI.ReadingFile(vaisalaInputFileName);
-                    using (StreamReader hFile = File.OpenText(vaisalaInputPath))
+                    string line;
+                    while ((line = hFile.ReadLine()) != null)
                     {
-                        string line;
-                        while ((line = hFile.ReadLine()) != null)
-                        {
-                            vaisalaDataLog.NewEntry(line);
-                        }
-                        hFile.Close();
+                        vaisalaDataLog.NewEntry(line);
                     }
+                    hFile.Close();
                     ConsoleUI.Done();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    ConsoleUI.WriteLine($"There was a problem with {vaisalaInputFileName}");
-                    ConsoleUI.WriteLine("Will include code for missing values");
+                    ConsoleUI.WriteLine($"There was a problem opening {vaisalaInputFileName}");
+                    ConsoleUI.WriteLine($" - {ex.Message}");
+                    ConsoleUI.WriteLine($" - Missing values substituded by {vaisalaDataLog.GetPodForDate(DateTime.UtcNow).Temperature}");
                 }
             }
-            
+
             // extract relevant data in a new object
+            ConsoleUI.StartOperation("Collating data");
             SensorDataLog sensorDataLog = new SensorDataLog($"outdoor: {evaDataLog.Title}, indoor: {vaisalaDataLog.Title}");
             foreach (var edp in evaDataLog.GetData())
             {
@@ -112,27 +109,30 @@ namespace Eva2Rinex
                 {
                     sensorDataLog.NewEntry(edp.TimeStamp, edp.Temperature1, edp.RelativeHumidity, edp.AbsolutePressure);
                 }
-                
             }
-
             // prepare meta data
             SensorMetaData sensorMetaData = new SensorMetaData(rinexType);
             sensorMetaData.ProgramName = ConsoleUI.Title + " V" + ConsoleUI.Version;
             sensorMetaData.AddComment("External sensor located close to GNSS antenna");
             sensorMetaData.AddComment($"Input file name: {evaInputFileName}");
             sensorMetaData.AddComment($"Internal sensor data file: {vaisalaInputFileName}");
+            ConsoleUI.Done();
 
             // finaly write the output file
-            ConsoleUI.WritingFile(rinexOutputFileName);
-            using (StreamWriter outFile = new StreamWriter(rinexOutputPath))
-            {
+            try
+            { 
+                StreamWriter outFile = new StreamWriter(rinexOutputPath);
+                ConsoleUI.WritingFile(rinexOutputFileName);
                 outFile.Write(sensorMetaData.ToRinex());
                 outFile.Write(sensorDataLog.ToRinex(dateToProcess));
                 outFile.Close();
+                ConsoleUI.Done();
             }
-            ConsoleUI.Done();
-
-
+            catch(Exception ex)
+            {
+                ConsoleUI.ErrorExit($"Error writing output: {ex.Message}", 4);
+            }
+            ConsoleUI.WriteLine("");
         }
     }
 }

@@ -38,8 +38,8 @@ namespace Eva2Rinex.BevMeteo
 
         #region Private Stuff
 
-        private double temperature;
-        private double relativeHumidity;
+        private double temperature = nullData;
+        private double relativeHumidity = nullData;
 
         private bool ParseDataLine(string line)
         {

@@ -116,13 +116,13 @@ namespace Eva2Rinex
         /// The BIPM and CCTF file format specification does not include sensor position. Since the height is important for barometric pressure measurements it is included as a comment.
         /// </summary>
         /// <param name="version">The Rinex version.</param>
-        void AddSensorPositionToComments(RinexType version)
+        private void AddSensorPositionToComments(RinexType version)
         {
             if (version == RinexType.Bipm || version == RinexType.Cctf)
                 AddComment(string.Format(CultureInfo.InvariantCulture.NumberFormat, "Height of PR sensor {0:F1} m", PositionH));
         }
 
-        void SetBevSpecificMetaData(RinexType version)
+        private void SetBevSpecificMetaData(RinexType version)
         {
             AgencyName = "BEV";
             StationName = "BEV";
@@ -150,7 +150,7 @@ namespace Eva2Rinex
             PositionH = 291.8;  // calculated  http://www.oc.nps.edu/oc2902w/coord/llhxyz.htm
         }
         
-        string GenerateVersionHeaderInfo(RinexType version)
+        private string GenerateVersionHeaderInfo(RinexType version)
         {
             string returnString = "";
             switch (version)
@@ -174,7 +174,7 @@ namespace Eva2Rinex
             return returnString;
         }
 
-        string GenerateProgramVersionAndAgencyInfo(RinexType version)
+        private string GenerateProgramVersionAndAgencyInfo(RinexType version)
         {
             // program, agency, date of generation
             string fileCreationDate = "";
@@ -199,7 +199,7 @@ namespace Eva2Rinex
                 );
         }
 
-        string GenerateLabNameInfo(RinexType version)
+        private string GenerateLabNameInfo(RinexType version)
         {
             string returnString = "";
             switch (version)
@@ -223,28 +223,28 @@ namespace Eva2Rinex
         #endregion
 
         #region Private fields
-        RinexType version;
-        string bipmStationCode;
-        MeteoSensorDescription[] metSensors;
+        private readonly RinexType version;
+        private string bipmStationCode;
+        private readonly MeteoSensorDescription[] metSensors;
         #endregion
 
     }
 
     /*********************************************************************************/
     #region Private helper class
-    class MeteoSensorDescription
+    internal class MeteoSensorDescription
     {
-        const string unknownObservation = "??";
+        private const string unknownObservation = "??";
 
-        string observationType;
-        string model;
-        string type;
-        double accuracy;
+        private string observationType;
+        private readonly string model;
+        private readonly string type;
+        private readonly double accuracy;
 
         public MeteoSensorDescription(string observationType, string model, string type, double accuracy)
         {
             this.observationType = observationType.Trim().ToUpper();
-            if (observationType.Length > 4) observationType = unknownObservation;
+            if (observationType.Length > 4) this.observationType = unknownObservation;
             this.model = RinexTools.Consolidate(model);
             this.type = RinexTools.Consolidate(type);
             this.accuracy = accuracy;

@@ -106,16 +106,16 @@ namespace Eva2Rinex
         }
 
         #region Private fields
-        double temperature1;        // the air temperature (analog) in °C
-        double temperature2;        // the air temperature (digital) in °C
-        double absolutePressure;    // the barometric pressure in hPa
-        double relativeHumidity;    // the relative humidity in %
-        double absoluteHumidity;    // the absolute humidity in g/m³
-        double mixingRatio;         // in g/kg
-        double dewpoint;            // in °C
-        double frostpoint;          // in °C
-        double airFlow;             // in %
-        double fanPower;            // in %
+        double temperature1 = nullData;        // the air temperature (analog) in °C
+        double temperature2 = nullData;        // the air temperature (digital) in °C
+        double absolutePressure = nullData;    // the barometric pressure in hPa
+        double relativeHumidity = nullData;    // the relative humidity in %
+        double absoluteHumidity = nullData;    // the absolute humidity in g/m³
+        double mixingRatio = nullData;         // in g/kg
+        double dewpoint = nullData;            // in °C
+        double frostpoint = nullData;          // in °C
+        double airFlow = nullData;             // in %
+        double fanPower = nullData;            // in %
         #endregion
 
     }

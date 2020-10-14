@@ -162,7 +162,7 @@ namespace Eva2Rinex
         #endregion
 
         #region Private methods
-        SensorBouquet GetBouquet()
+        private SensorBouquet GetBouquet()
         {
             if (internalHumidity.HasValue && internalTemperature.HasValue)
                 return SensorBouquet.ExternalAndInternal;
@@ -173,8 +173,8 @@ namespace Eva2Rinex
 
         #region Private fields
         // the only way to set these values is via the constructors.
-        double? internalTemperature;    // lab temperature in °C
-        double? internalHumidity;       // lab relative humidity in %
+        private readonly double? internalTemperature;    // lab temperature in °C
+        private readonly double? internalHumidity;       // lab relative humidity in %
         #endregion
 
     }

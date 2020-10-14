@@ -25,4 +25,10 @@ The name of the result file is more complicated, but well defined in the RINEX a
 
 The configuration file `Eva2Rinex.exe.config` (XML format) can be modified with an editor of your choice. The most important parameters are the directories of the input and output files, respectively.
 
+### Caveats
 
+In the current state this program is highly specialized for the use of the time and frequency division of the [BEV](http://www.bev.gv.at). The agency details (acronym, location, used instruments, ...) are hard coded, mainly in `SensorMetaData.SetBevSpecificMetaData(RinexType)`.
+
+The time stamps for the output data are determined by the respective EVA input file. The nearest data lines are selected (if present) in the Vaisala input file.
+
+The firmware of the EVA 700 was updated around August 2020. Older files can no longer be parsed correctly.
