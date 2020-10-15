@@ -50,7 +50,7 @@ namespace Eva2Rinex
         public static string MjdString(DateTime date)
         {
             double mjd = ModifiedJulianDate(date);
-            return string.Format("{0:0.}", mjd);
+            return string.Format("{0:0.}", mjd); // TODO string interpolation
         }
 
         /// <summary>
@@ -74,16 +74,20 @@ namespace Eva2Rinex
                     fileName = "";
                     break;
                 case RinexType.Version3:
-                    fileName = "BEV0" + ddd + "0." + yy + "M"; // ver. 3.00, modified in 3.03!
+                    //fileName = "BEV0" + ddd + "0." + yy + "M"; 
+                    fileName = $"BEV0{ddd}0.{yy}M"; // ver. 3.00, modified in 3.03!
                     break;
                 case RinexType.Version2:
-                    fileName = "BEV0" + ddd + "0." + yy + "M"; // ver. 2.11
+                    // fileName = "BEV0" + ddd + "0." + yy + "M";
+                    fileName = $"BEV0{ddd}0.{yy}M"; // ver. 2.11
                     break;
                 case RinexType.Bipm:
-                    fileName = "BEmet_" + mj + "." + day;
+                    // fileName = "BEmet_" + mj + "." + day;
+                    fileName = $"BEmet_{mj}.{day}";
                     break;
                 case RinexType.Cctf:
-                    fileName = "metBE" + mj + "." + day;
+                    // fileName = "metBE" + mj + "." + day;
+                    fileName = $"metBE{mj}.{day}";
                     break;
 
             }
