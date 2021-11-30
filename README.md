@@ -17,7 +17,7 @@ The second station is located indoor, in the lab for the atomic clocks. It is a 
 
 ### File name convention
 
-The name of the EVA file must match the pattern `YYYYMMDD.txt` where the letters represent the year, month and day, respectively. The Vaisala file name must be of the form `Vaisala_Data_YYYYMMDD.txt`.
+The name of the EVA file must match the pattern `YYYYMMDD.TXT` where the letters represent the year, month and day, respectively. The Vaisala file name must be of the form `Vaisala_Data_YYYYMMDD.txt`. Note: the file names (including extensions) are case sensitive on Linux system by default!
 
 The name of the result file is more complicated, but well defined in the RINEX and BIPM documentations. An example from the BEV can look like `metBE59.126`.
 
