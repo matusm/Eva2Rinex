@@ -12,7 +12,7 @@ namespace Eva2Rinex.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace Eva2Rinex.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("L:\\E2\\E23\\RINEX\\meteo_eva")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/home/bev-meteoserver/dataexchange/Data/meteo/meteo_eva/")]
         public string EvaInputDirectory {
             get {
                 return ((string)(this["EvaInputDirectory"]));
@@ -34,7 +34,7 @@ namespace Eva2Rinex.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("L:\\E2\\E23\\RINEX\\meteo_eva\\BIPM")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/home/bev-meteoserver/dataexchange/Upload/meteodata_temp/")]
         public string OutputDirectory {
             get {
                 return ((string)(this["OutputDirectory"]));
@@ -43,7 +43,7 @@ namespace Eva2Rinex.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("L:\\E2\\E23\\RINEX\\meteo_vaisala")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/home/bev-meteoserver/dataexchange/Data/meteo/meteo_atomuhr/")]
         public string VaisalaInputDirectory {
             get {
                 return ((string)(this["VaisalaInputDirectory"]));

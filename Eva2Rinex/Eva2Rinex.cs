@@ -34,7 +34,7 @@ namespace Eva2Rinex
             #region File name handling
             string baseFileName = Path.GetFileNameWithoutExtension(args[0]);
             string evaInputFileName = Path.ChangeExtension(baseFileName, ".TXT");
-            string vaisalaInputFileName = Path.ChangeExtension($"Vaisala_Data_{baseFileName}", ".TXT");
+            string vaisalaInputFileName = Path.ChangeExtension($"Vaisala_Data_{baseFileName}", ".txt");
             string evaInputPath = Path.Combine(settings.EvaInputDirectory, evaInputFileName);
             string vaisalaInputPath = Path.Combine(settings.VaisalaInputDirectory, vaisalaInputFileName);
             DateTime dateToProcess = DateTime.UtcNow; // just to initialize the type
